@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "epic-events"
+version = "0.1.0"
+description = ""
+authors = ["Nidal Chateur <nidalchateur@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django-bootstrap5 = "^23.3"
+pytest = "^7.4.3"
+pytest-django = "^4.7.0"
+coverage = "^7.3.4"
+pytest-cov = "^4.1.0"
+flake8 = "^6.1.0"
+flake8-html = "^0.4.3"
+django = "^5.0"
+django-phonenumber-field = {extras = ["phonenumberslite"], version = "^7.3.0"}
+sentry-sdk = {extras = ["django"], version = "^1.39.1"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

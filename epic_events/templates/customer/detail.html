@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center my-5">Fiche {{title}}</h1>
+    <div class="offset-md-3 col-md-6 offset-1 col-10">
+
+      {% if user.role == "Gestion" %}
+        <a href="{% url 'create_contract' id=obj.id %}" title="Ajouter">
+          <button class="btn btn-success mb-3">
+            <i class="bi bi-plus-lg"></i> Contrat
+          </button>
+        </a>
+      {% endif %}
+
+      <div class="card text-center">
+        <div class="card-header">Identifiant : {{obj.id}}</div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{obj.name|capfirst}}</h5>
+          <p class="card-text">Email : {{obj.email|lower}}</p>
+          <p class="card-text">Téléphone : {{obj.formatted_phone}}</p>
+
+          {% if obj.company %}
+          <p class="card-text">Entreprise : <a href="{% url 'company' id=obj.company.id %}">{{obj.company_name}}</a></p>
+          {% else %}
+            <p class="card-text">Entreprise : {{obj.company_name}}</p>
+          {% endif %}
+
+          {% if obj.commercial %}
+            <p class="card-text">Commercial : <a href="{% url 'collaborator' id=obj.commercial.id %}">{{obj.commercial_name}}</a></p>
+          {% else %}
+          <p class="card-text">Commercial : {{obj.commercial_name}}</p>
+          {% endif %}
+
+          <p class="card-text">Contrats : 
+            {% for contract in contracts %}
+              <a href="{% url 'contract' id=contract.id %}">contrat n°{{contract.id}}</a>
+            {% empty %}
+              (Non renseigné)
+            {% endfor %}
+          </p>
+
+          {% if user.role == "Commercial" %}
+            <a href="{% url update_url_name id=obj.id  %}" class="btn btn-warning" title="Modifier">
+              <i class="bi bi-pencil-fill"></i>
+            </a> 
+            <a href="{% url delete_url_name id=obj.id  %}" class="btn btn-danger" title="Supprimer">
+              <i class="bi bi-x-lg"></i>
+            </a>
+          {% endif %}
+          
+        </div>
+
+        <div class="card-footer text-muted">
+          <p>Créé le : {{obj.creation_time|date}}</p>
+          <p>Dernière modification : {{obj.edition_time|date}}</p>
+        </div>
+
+      </div>
+
+    </div>
+{% endblock content %}

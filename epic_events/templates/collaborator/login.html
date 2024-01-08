@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+  <div class="offset-lg-4 col-lg-4">
+
+    <h1 class="text-center my-5">Connexion</h1>
+
+    <div class="shadow p-5 mb-5 bg-body-tertiary rounded-5">
+
+      <form method="POST" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-dark w-100">Se connecter</button>
+      </form>
+
+      <p class="mt-2"><a href="" class="text-dark">Mot de passe oublié ?</a></p>
+      <p class="border-top">
+        <a href="{% url 'first_connexion' %}" role="button" class="btn btn-dark w-100 border-top">
+          Première connexion
+        </a>
+      </p>
+    </div>
+
+  </div>
+
+{% endblock content %}

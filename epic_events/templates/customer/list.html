@@ -1,0 +1,108 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+  <h1 class="text-center my-5">{{title}}</h1>
+
+  
+  {% if user.role == "Commercial" %}
+
+    <a href="{% url create_url_name %}" title="Ajouter client">
+      <button class="btn btn-success mb-3">
+        <i class="bi bi-plus-lg"></i>
+      </button>
+    </a>
+
+    <!-- filter (all customers / commercial customers)-->
+    <ul class="nav nav-tabs m-1">
+      {% if "/"|add:list_url_name|add:"/" == request.path %}
+      <!-- all customers is active -->
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url list_url_name %}">Tous les {{title|lower}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-muted" href="{% url my_list_url_name id=user.id %}">Mes {{title|lower}}</a>
+      </li>
+      <!-- commercial customers is active-->
+      {% elif user.str_id in request.path %}
+      <li class="nav-item">
+        <a class="nav-link text-muted" aria-current="page" href="{% url list_url_name %}">Tous les {{title|lower}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url my_list_url_name id=user.id %}">Mes {{title|lower}}</a>
+      </li>
+      <!-- muted for -->
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link text-muted" aria-current="page" href="{% url list_url_name %}">Tous les {{title|lower}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-muted" href="{% url my_list_url_name id=user.id %}">Mes {{title|lower}}</a>
+      </li>
+      {% endif %}
+    </ul>
+
+  {% endif %}
+
+  <table class="table table-bordered text-center align-middle m-1">
+    <thead>
+      <tr class="table-secondary align-middle">
+        <th scope="col">ID</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Entreprise</th>
+        <th scope="col">Commercial</th>
+        {% if user.role == "Commercial" or user.role == "Gestion" %}
+          <th scope="col">Action</th>
+        {% endif %}
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for obj in page_obj %}
+        <tr>
+          <td><a href="{% url detail_url_name id=obj.id %}">{{obj.id}}</a></td>
+          <td><a href="{% url detail_url_name id=obj.id %}">{{obj}}</a></td>
+
+          {% if obj.company %}
+            <td><a href="{% url 'company' id=obj.company.id %}">{{obj.company_name}}</a></td>
+          {% else %}
+            <td>{{obj.company_name}}</td>
+          {% endif %}
+
+          {% if obj.commercial %}
+            <td><a href="{% url 'collaborator' id=obj.commercial.id %}">{{obj.commercial_name}}</a></td>
+          {% else %}
+            <td>{{obj.commercial_name}}</td>
+          {% endif %}
+
+          {% if user.role == "Commercial" %}
+            <td>
+              <a title="Modifier" href="{% url update_url_name id=obj.id %}" class="link-underline link-underline-opacity-0">
+                <button class="btn btn-warning"><i class="bi bi-pencil-fill"></i></button>
+              </a>
+
+              <a title="Supprimer" href="{% url delete_url_name id=obj.id %}">
+                <button class="btn btn-danger m-1"><i class="bi bi-x-lg"></i></button>
+              </a>
+            </td>
+          {% endif %}
+
+          {% if user.role == "Gestion" %}
+            <td>
+              <a href="{% url 'create_contract' id=obj.id %}" title="Ajouter contrat">
+                <button class="btn btn-success">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </a>
+            </td>
+          {% endif %}
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'partials/paginator.html' %}
+  
+{% endblock content %}

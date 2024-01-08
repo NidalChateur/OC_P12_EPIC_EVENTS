@@ -1,0 +1,68 @@
+{% if page_obj.paginator.num_pages > 1 %}
+	<nav aria-label="..." class="d-flex justify-content-center">
+		<ul class="pagination">
+
+			<!-- first -->
+			{% if page_obj.has_previous %}
+				<li class="page-item">
+					<a class="page-link" href="?page=1" aria-label="Previous" title="première page">
+						<span aria-hidden="true" class="text-dark">&laquo;</span>
+					</a>
+				</li>
+			{% endif %}
+
+			<!-- previous -->
+			{% if page_obj.has_previous %}
+				<li class="page-item">
+					<a class="page-link text-dark" href="?page={{ page_obj.previous_page_number }}">
+						Précédente
+					</a>
+				</li>
+			{% endif %}
+
+			<!-- current page - 1  -->
+			{% if page_obj.has_previous %}
+				<li class="page-item">
+					<a class="page-link text-dark" href="?page={{ page_obj.previous_page_number }}">
+						{{ page_obj.previous_page_number }}
+					</a>
+				</li>
+			{% endif %}
+
+			<!-- current page -->
+			<li class="page-item active bg-dark" aria-current="page">
+				<a class="page-link text-light bg-dark" href="?page={{ page_obj.number }}">
+					{{ page_obj.number }}
+				</a>
+			</li>
+
+			<!-- current page + 1 -->
+			{% if page_obj.has_next %}
+				<li class="page-item">
+					<a class="page-link text-dark" href="?page={{ page_obj.next_page_number }}">
+						{{ page_obj.next_page_number }}
+					</a>
+				</li>
+			{% endif %}
+
+			<!-- next -->
+			{% if page_obj.has_next %}
+				<li class="page-item">
+					<a class="page-link text-dark" href="?page={{ page_obj.next_page_number }}">
+						Suivante
+					</a>
+				</li>
+			{% endif %}
+
+			<!-- last -->
+			{% if page_obj.has_next %}
+				<li class="page-item">
+					<a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Previous" title="dernière page">
+						<span aria-hidden="true" class="text-dark">&raquo;</span>
+					</a>
+				</li>
+			{% endif %}
+			
+		</ul>
+	</nav>
+{% endif %}

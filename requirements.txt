@@ -1,0 +1,19 @@
+# python version = 3.10.11
+# python.exe -m pip install --upgrade pip
+
+django
+django-phonenumber-field[phonenumberslite]
+django-bootstrap5
+
+pytest
+pytest-django
+coverage
+pytest-cov
+
+
+flake8
+flake8-html
+
+poetry
+
+sentry-sdk[django]

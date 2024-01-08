@@ -1,0 +1,179 @@
+<!-- filer : on all contrats -->
+{% if  "/contracts/" == request.path or "/contracts/" in request.path and "signed" in request.path or "/contracts/" in request.path and "ready" in request.path%}
+  <ul class="nav nav-tabs m-1">
+      <!-- active -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-muted active" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tous les {{title|lower}}</a>
+        <ul class="dropdown-menu">
+          <!-- active bg-dark or text-muted -->
+
+          {% if "/contracts/signed_paid/" == request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'signed_paid_contracts' %}">signés et payés</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'signed_paid_contracts' %}">signés et payés</a></li>
+          {% endif %}
+
+          {% if "/contracts/signed_unpaid/" == request.path %}
+          <li><a class="dropdown-item active bg-dark" href="{% url 'signed_unpaid_contracts' %}">signés et non payés</a></li>
+          {% else %}
+          <li><a class="dropdown-item text-muted" href="{% url 'signed_unpaid_contracts' %}">signés et non payés</a></li>
+          {% endif %}
+
+          {% if "/contracts/unsigned_paid/" == request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'unsigned_paid_contracts' %}">non signés et payés</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'unsigned_paid_contracts' %}">non signés et payés</a></li>
+          {% endif %} 
+
+          {% if "/contracts/unsigned_unpaid/" == request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'unsigned_unpaid_contracts' %}">non signés et non payés</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'unsigned_unpaid_contracts' %}">non signés et non payés</a></li>
+          {% endif %}
+
+          {% if "/contracts/ready_for_event/" == request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'ready_for_event_contracts' %}">événements à créer</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'ready_for_event_contracts' %}">événements à créer</a></li>
+          {% endif %}
+          
+
+          <li><hr class="dropdown-divider"></li>
+
+          {% if "/contracts/" == request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'contracts' %}">tous les contrats</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'contracts' %}">tous les contrats</a></li>
+          {% endif %} 
+        </ul>
+      </li>
+
+      <!-- muted -->
+      {% if user.role == "Commercial" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Mes {{title|lower}}</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item text-muted" href="{% url 'my_signed_paid_contracts' id=user.id %}">signés et payés</a></li>
+            <li><a class="dropdown-item text-muted" href="{% url 'my_unsigned_paid_contracts' id=user.id %}">non signés et payé</a></li>
+            <li><a class="dropdown-item text-muted" href="{% url 'my_signed_unpaid_contracts' id=user.id %}">signés et non payés</a></li>
+            <li><a class="dropdown-item text-muted" href="{% url 'my_unsigned_unpaid_contracts' id=user.id %}">non signés et non payés</a></li>
+            <li><a class="dropdown-item text-muted" href="{% url 'my_ready_for_event_contracts' id=user.id %}">événements à créer</a></li>
+
+            <li><hr class="dropdown-divider"></li>
+            
+            <li><a class="dropdown-item text-muted" href="{% url 'my_contracts' id=user.id %}">tous mes contrats</a></li>
+          </ul>
+        </li>
+      {% endif %}
+
+  </ul>
+{% endif %}
+
+<!-- filer : on commerical contrats -->
+{% if  "/my_contracts/" in request.path %}
+  <ul class="nav nav-tabs m-1">
+
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tous les {{title|lower}}</a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item text-muted" href="{% url 'signed_paid_contracts' %}">signés et payés</a></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'signed_unpaid_contracts' %}">signés et non payés</a></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'unsigned_paid_contracts' %}">non signés et payés</a></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'unsigned_unpaid_contracts' %}">non signés et non payés</a></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'ready_for_event_contracts' %}">événements à créer</a></li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li><a class="dropdown-item text-muted" href="{% url 'contracts' %}">tous les contrats</a></li>
+
+      </ul>
+    </li>
+
+    {% if user.role == "Commercial" %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-muted active" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Mes {{title|lower}}</a>
+        <ul class="dropdown-menu">
+          <!-- active bg-dark or text-muted -->
+
+          {% if "/signed_paid/" in request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'my_signed_paid_contracts' id=user.id %}">signés et payés</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'my_signed_paid_contracts' id=user.id %}">signés et payés</a></li>
+          {% endif %} 
+          
+          {% if "/unsigned_paid/" in request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'my_unsigned_paid_contracts' id=user.id %}">non signés et payé</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'my_unsigned_paid_contracts' id=user.id %}">non signés et payé</a></li>
+          {% endif %}
+
+          {% if "/signed_unpaid/" in request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'my_signed_unpaid_contracts' id=user.id %}">signés et non payés</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'my_signed_unpaid_contracts' id=user.id %}">signés et non payés</a></li>
+          {% endif %} 
+
+          {% if "/unsigned_unpaid/" in request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'my_unsigned_unpaid_contracts' id=user.id %}">non signés et non payés</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'my_unsigned_unpaid_contracts' id=user.id %}">non signés et non payés</a></li>
+          {% endif %} 
+
+          {% if "/ready_for_event/" in request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'my_ready_for_event_contracts' id=user.id %}">événements à créer</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'my_ready_for_event_contracts' id=user.id %}">événements à créer</a></li>
+          {% endif %} 
+          
+          <li><hr class="dropdown-divider"></li>
+          
+          {% if "signed" not in request.path and "ready" not in request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'my_contracts' id=user.id %}">tous mes contrats</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'my_contracts' id=user.id %}">tous mes contrats</a></li>
+          {% endif %}
+        </ul>
+      </li>
+    {% endif %}
+
+  </ul>
+{% endif %}
+
+<!-- filer muted in search view -->
+{% if  "search" in request.path %}
+  <ul class="nav nav-tabs m-1">
+
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tous les {{title|lower}}</a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item text-muted" href="{% url 'signed_paid_contracts' %}">signés et payés</a></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'signed_unpaid_contracts' %}">signés et non payés</a></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'unsigned_paid_contracts' %}">non signés et payés</a></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'unsigned_unpaid_contracts' %}">non signés et non payés</a></li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li><a class="dropdown-item text-muted" href="{% url 'contracts' %}">tous les contrats</a></li>
+
+      </ul>
+    </li>
+
+    {% if user.role == "Commercial" %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Mes {{title|lower}}</a>
+        <ul class="dropdown-menu">
+          <!-- active bg-dark or text-muted -->
+          <li><a class="dropdown-item text-muted" href="{% url 'my_signed_paid_contracts' id=user.id %}">signés et payés</a></li>
+          <li><a class="dropdown-item text-muted" href="{% url 'my_unsigned_paid_contracts' id=user.id %}">non signés et payé</a></li>
+          <li><a class="dropdown-item text-muted" href="{% url 'my_signed_unpaid_contracts' id=user.id %}">signés et non payés</a></li>
+          <li><a class="dropdown-item text-muted" href="{% url 'my_unsigned_unpaid_contracts' id=user.id %}">non signés et non payés</a></li>
+
+          <li><hr class="dropdown-divider"></li>
+
+          <li><a class="dropdown-item text-muted" href="{% url 'my_contracts' id=user.id %}">tous mes contrats</a></li>
+        </ul>
+      </li>
+    {% endif %}
+
+  </ul>
+{% endif %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center my-5">Suppression collaborateur</h1>
+
+    <div class=" offset-md-3 col-md-6 offset-1 col-10"> 
+
+        <p>Souhaitez vous vraiment supprimer ce profil collaborateur ?</p>
+
+        <div class="card text-center mt-5">
+            <div class="card-header">
+              Identifiant : {{collaborator.id}}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{collaborator.name}}</h5>
+              <p class="card-title">Date de naissance : {{collaborator.birthdate}}</p>
+              <p class="card-title">Département : {{collaborator.role}}</p>
+              <p class="card-text">Email : {{collaborator.email|lower}}</p>
+              <p class="card-text">Téléphone : {{collaborator.formatted_phone}}</p>
+            </div>
+            <div class="card-footer text-muted">
+              <p>Créé le : {{collaborator.creation_time|date}}</p>
+              <p>Dernière modification : {{collaborator.edition_time|date}}</p>
+            </div>
+        </div>
+
+        <form method="POST" class="mt-5">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">
+              Supprimer {{collaborator.name}}
+            </button>
+        </form>
+    </div>
+{% endblock content %}
