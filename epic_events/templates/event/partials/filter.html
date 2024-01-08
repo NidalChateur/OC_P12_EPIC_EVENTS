@@ -1,0 +1,79 @@
+{% if  "/events/" == request.path or "/events/without_support/" == request.path %}
+  <ul class="nav nav-tabs m-1">
+      <!-- active -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-muted active" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tous les {{title|lower}}</a>
+        <ul class="dropdown-menu">
+          <!-- active bg-dark or text-muted -->
+
+          {% if "/events/without_support/" == request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'events_without_support' %}">sans support</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'events_without_support' %}">sans support</a></li>
+          {% endif %}
+
+
+          <li><hr class="dropdown-divider"></li>
+
+          {% if "/events/" == request.path %}
+            <li><a class="dropdown-item active bg-dark" href="{% url 'events' %}">tous les événements</a></li>
+          {% else %}
+            <li><a class="dropdown-item text-muted" href="{% url 'events' %}">tous les événements</a></li>
+          {% endif %} 
+        </ul>
+      </li>
+
+      {% if user.role == "Support" %}
+        <!-- muted -->
+        <li class="nav-item">
+          <a class="nav-link text-muted" aria-current="page" href="{% url 'my_events' id=user.id %}">Mes {{title|lower}}</a>
+        </li>
+      {% endif %}
+  </ul>
+{% elif "my_events" in request.path %}
+  <ul class="nav nav-tabs m-1">
+    <!-- muted -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tous les {{title|lower}}</a>
+      <ul class="dropdown-menu">
+        <!-- active bg-dark or text-muted -->
+
+        <li><a class="dropdown-item text-muted" href="{% url 'events_without_support' %}">sans support</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'events' %}">tous les événements</a></li>
+
+      </ul>
+    </li>
+
+    {% if user.role == "Support" %}
+      <!-- active -->
+      <li class="nav-item">
+        <a class="nav-link text-muted active" aria-current="page" href="{% url 'my_events' id=user.id %}">Mes {{title|lower}}</a>
+      </li>
+    {% endif %}
+  </ul>
+{% else %}
+
+  <ul class="nav nav-tabs m-1">
+    <!-- muted -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle text-muted" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tous les {{title|lower}}</a>
+      <ul class="dropdown-menu">
+        <!-- active bg-dark or text-muted -->
+
+        <li><a class="dropdown-item text-muted" href="{% url 'events_without_support' %}">sans support</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-muted" href="{% url 'events' %}">tous les événements</a></li>
+
+      </ul>
+    </li>
+
+    {% if user.role == "Support" %}
+      <!-- muted -->
+      <li class="nav-item">
+        <a class="nav-link text-muted" aria-current="page" href="{% url 'my_events' id=user.id %}">Mes {{title|lower}}</a>
+      </li>
+    {% endif %}
+  </ul>
+
+  {% endif %}

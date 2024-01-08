@@ -1,0 +1,92 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+  <h1 class="text-center my-5">{{title}}</h1>
+
+  {% include "event/partials/filter.html" %}
+
+  <table class="table table-bordered text-center align-middle m-1">
+    <thead>
+      <tr class="table-secondary align-middle">
+        <th scope="col">ID</th>
+        <th scope="col">Contrat ID</th>
+        <th scope="col">Lieu ID</th>
+        <th scope="col">Commercial</th>
+        <th scope="col">Support</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for obj in page_obj %}
+        <tr>
+          <td><a href="{% url detail_url_name id=obj.id %}">{{obj.id}}</a></td>
+
+          {% if obj.contract %}
+            <td><a href="{% url 'contract' id=obj.contract.id %}">{{obj.contract.id}}</a></td>
+          {% else %}
+            <td>(Non renseigné)</td>
+          {% endif %}
+
+          {% if obj.location %}
+            <td><a href="{% url 'location' id=obj.location.id %}">{{obj.location.id}}</a></td>
+          {% else %}
+            <td>(Non renseigné)</td>
+          {% endif %}
+
+          {% if obj.contract %}
+            {% if obj.contract.customer_has_commercial %}
+              <td><a href="{% url 'collaborator' id=obj.contract.customer.commercial.id %}">{{obj.contract.commercial_name}}</a></td>
+            {% else %}  
+              <td>(Non renseigné)</td> 
+            {% endif %}
+          {% else %}
+            <td>(Non renseigné)</td>
+          {% endif %}
+
+          {% if obj.support %}
+            <td><a href="{% url 'collaborator' id=obj.support.id %}">{{obj.support_name}}</a></td>
+          {% else %}
+            <td>{{obj.support_name}}</td>
+          {% endif %}
+
+            <td>
+              <!-- edit / delete event button  -->
+              {% if user.role == "Commercial" or user.role == "Support" %}
+
+                {% if obj.contract.commercial_id == user.str_id or obj.support.id == user.id %}
+                  <a title="Modifier" href="{% url update_url_name id=obj.id %}" class="link-underline link-underline-opacity-0">
+                    <button class="btn btn-warning m-1"><i class="bi bi-pencil-fill"></i></button>
+                  </a>
+                
+                  <a title="Supprimer" href="{% url delete_url_name id=obj.id %}">
+                    <button class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
+                  </a>
+
+                {% else %}
+                  <button class="btn btn-secondary m-1 disabled"><i class="bi bi-pencil-fill"></i></button>
+                  <button class="btn btn-secondary disabled"><i class="bi bi-x-lg"></i></button>
+                {% endif %}
+                
+              {% endif %}
+              
+                
+              <!-- assign a support button "Gestion" -->
+              {% if user.role == "Gestion" %}
+                <a title="Modifier support" href="{% url 'change_support' id=obj.id %}" class="link-underline link-underline-opacity-0">
+                  <button class="btn btn-warning m-1"><i class="bi bi-pencil-fill"></i></button>
+                </a>
+                <button class="btn btn-secondary disabled"><i class="bi bi-x-lg"></i></button>
+              {% endif %}
+            </td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'partials/paginator.html' %}
+  
+{% endblock content %}

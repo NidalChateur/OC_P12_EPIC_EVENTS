@@ -1,0 +1,63 @@
+{% if request.path == "/collaborators/" or "search" in request.path %}
+    <form class="d-flex" method="POST">
+    {% csrf_token %}
+    {{form.search}}
+    <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+{% endif %}
+
+{% if request.path == "/departments/" %}
+    <form class="d-flex" method="POST">
+        {% csrf_token %}
+        {{form.search}}
+        <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+{% endif %}
+
+{% if request.path == "/companies/" %}
+    <form class="d-flex" method="POST">
+        {% csrf_token %}
+        {{form.search}}
+        <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+{% endif %}
+
+{% if request.path == "/customers/" %}
+    <form class="d-flex" method="POST">
+        {% csrf_token %}
+        {{form.search}}
+        <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+{% endif %}
+
+{% if  "my_customers" in request.path %}
+    <form class="d-flex" method="POST">
+        {% csrf_token %}
+        {{form.search}}
+        <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+{% endif %}
+
+{% if request.path == "/contracts/" or  "/my_contracts/" in request.path or "signed" in request.path or "ready" in request.path%}
+    <form class="d-flex" method="POST">
+        {% csrf_token %}
+        {{form.search}}
+        <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+{% endif %}
+
+{% if request.path == "/events/" or "my_events" in request.path or "without_support" in request.path %}
+    <form class="d-flex" method="POST">
+        {% csrf_token %}
+        {{form.search}}
+        <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+{% endif %}
+
+{% if request.path == "/locations/" %}
+    <form class="d-flex" method="POST">
+        {% csrf_token %}
+        {{form.search}}
+        <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+{% endif %}

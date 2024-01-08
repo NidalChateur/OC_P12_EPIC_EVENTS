@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+      <h1 class="text-center my-5">
+        {% if 'create' in request.path %}
+          Ajouter un nouveau {{title}} à {{obj.french_name|lower}} n°{{obj.id}}
+        {% else %}
+          Mettre à jour l'{{title}} n°{{obj.id}}
+        {% endif %}
+      </h1>
+
+
+    <div class="shadow p-5 mb-5 bg-body-tertiary rounded-5">
+
+      <form method="POST" class="form">
+        {% csrf_token %}
+
+        {% if relation2_form %}
+          {% bootstrap_form relation2_form %}
+        {% endif %}
+        
+        {% bootstrap_form model_form %}
+        <button type="submit" class="btn btn-dark w-100">Enregistrer</button>
+      </form>
+
+    </div>
+ 
+{% endblock content %}

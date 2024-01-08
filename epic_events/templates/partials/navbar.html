@@ -1,0 +1,146 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <span class="bg-dark text-light p-1 pb-2 bg-gradient rounded-3">
+        Epic Events 
+      </span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      {% if user.is_authenticated %}
+
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+
+        <li class="nav-item">
+          <a 
+          {% if '/home/' == request.path %}
+            class="nav-link active border-bottom border-dark border-2"
+            aria-current="page"
+          {% else %}
+            class="nav-link"
+          {% endif %}
+            href="{% url 'home' %}">Accueil
+          </a>
+        </li>
+
+
+
+        {% if user.role == "Gestion" %} 
+        <li class="nav-item">
+          <a 
+          {% if request.path == "/collaborators/" or "collaborators" in request.path and "search" in request.path %}
+            class="nav-link active border-bottom border-dark border-2"
+            aria-current="page"
+          {% else %}
+            class="nav-link"
+          {% endif %}
+           href="{% url 'collaborators' %}">Collaborateurs
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a 
+          {% if request.path == "/departments/" or "departments" in request.path and "search" in request.path %}
+            class="nav-link active border-bottom border-dark border-2"
+            aria-current="page"
+          {% else %}
+            class="nav-link"
+          {% endif %}
+            href="{% url 'departments' %}">Départements
+          </a>
+        </li>
+        {% endif %}
+        
+        
+        <li class="nav-item">
+          <a 
+          {% if '/customers/' == request.path %}
+            class="nav-link active border-bottom border-dark border-2"
+            aria-current="page"
+          {% else %}
+            class="nav-link"
+          {% endif %}
+           href="{% url 'customers' %}">Clients
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a 
+          {% if '/companies/' == request.path %}
+            class="nav-link active border-bottom border-dark border-2"
+            aria-current="page"
+          {% else %}
+            class="nav-link"
+          {% endif %} 
+            href="{% url 'companies' %}">Entreprises
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a 
+          {% if '/contracts/' == request.path %}
+            class="nav-link active border-bottom border-dark border-2"
+            aria-current="page"
+          {% else %}
+            class="nav-link"
+          {% endif %} 
+            href="{% url 'contracts' %}">Contrats
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a 
+          {% if '/events/' == request.path %}
+            class="nav-link active border-bottom border-dark border-2"
+            aria-current="page"
+          {% else %}
+            class="nav-link"
+          {% endif %} 
+            href="{% url 'events' %}">Événements
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a 
+          {% if '/locations/' == request.path %}
+            class="nav-link active border-bottom border-dark border-2"
+            aria-current="page"
+          {% else %}
+            class="nav-link"
+          {% endif %} 
+            href="{% url 'locations' %}">Lieux
+          </a>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <a
+          {% if '/collaborators/'|add:user.str_id|add:'/' == request.path %} 
+            class="nav-link dropdown-toggle active border-bottom border-dark border-2" 
+          {% else %}
+            class="nav-link dropdown-toggle"
+          {% endif %} 
+          href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{user.title}}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="{% url 'collaborator' id=user.id %}">Mon profil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Déconnexion</a></li>
+          </ul>
+        </li>
+        
+
+      </ul>
+      
+      {% include "partials/search_form.html" %}
+      
+      {% endif %}
+    </div>
+  </div>
+</nav>
+

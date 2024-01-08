@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center my-5">Suppression {{title}}</h1>
+
+    <div class=" offset-md-3 col-md-6 offset-1 col-10"> 
+
+      <p>Souhaitez vous vraiment supprimer {{title}} identifiant n°{{obj.id}} ?</p>
+
+        <div class="card text-center mt-5">
+            <div class="card-header">Identifiant : {{obj.id}}</div>
+
+            <div class="card-body">
+              <h5 class="card-title">{{obj.name|capfirst}}</h5>
+            </div>
+
+            <div class="card-footer text-muted">
+              <p>Créé le : {{obj.creation_time|date}}</p>
+              <p>Dernière modification : {{obj.edition_time|date}}</p>
+            </div>
+        </div>
+
+        <form method="POST" class="mt-5">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">
+              Supprimer {{obj.name|capfirst}}
+            </button>
+        </form>
+    </div>
+{% endblock content %}
