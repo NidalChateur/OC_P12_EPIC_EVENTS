@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center my-5">Fiche {{title}}</h1>
+    <div class="offset-md-3 col-md-6 offset-1 col-10">
+
+      <div class="card">
+        <div class="card-header text-center">
+          Identifiant : {{obj.id}}
+        </div>
+        <ul class="list-group list-group-flush text-center">
+
+          <!-- contract data -->
+          <li class="list-group-item">
+            {% if obj.contract %}
+              <p class="card-text">Contrat ID :  <a href="{% url 'contract' id=obj.contract.id %}">{{obj.contract.id}}</a></p>
+            {% else %}
+              <p class="card-text">Contrat ID : (Non renseigné)</p>
+            {% endif %}
+          </li>
+
+          <!-- commercial data -->
+          <li class="list-group-item">
+            {% if obj.contract and obj.contract.customer_has_commercial %}
+              <p class="card-text">Commercial : <a href="{% url 'collaborator' id=obj.contract.customer.commercial.id %}">{{obj.commercial_name}}</a></p>
+            {% else %}
+              <p>Commercial : (Non renseigné)</p>
+            {% endif %}
+          </li>
+
+          <!-- support data -->
+          <li class="list-group-item">
+            {% if obj.support %}
+              <p class="card-text">Support : <a href="{% url 'collaborator' id=obj.support.id %}">{{obj.support_name}}</a></p>
+            {% else %}
+              <p>Support : (Non renseigné)</p>
+            {% endif %}
+          </li>
+
+          <!-- customer data -->
+          <li class="list-group-item">
+            {% if obj.contract and obj.contract.customer %}
+              <p class="card-text">Client : <a href="{% url 'customer' id=obj.contract.customer.id %}">{{obj.customer_name}}</a></p>
+              <p class="card-text">Email : {{obj.customer_email}}</p>
+              <p class="card-text">Téléphone : {{obj.customer_phone}}</p>
+            {% else %}
+              <p>Client : (Non renseigné)</p>
+            {% endif %}
+          </li>
+
+            <!--  event data -->
+            <li class="list-group-item">
+              <p class="card-text">Date de début : {% if obj.start_date %} {{obj.start_date}} {% else %}  (Non renseigné) {% endif %}</p>
+              <p class="card-text">Date de fin : {% if obj.start_date %} {{obj.start_date}} {% else %}  (Non renseigné) {% endif %}</p>
+              <p class="card-text">Nombre de participants : {% if obj.attendees %} {{obj.attendees}} {% else %}  (Non renseigné) {% endif %}</p>
+              <p class="card-text">Lieu : 
+                {% if obj.location %} 
+                  <a href="{% url 'location' id=obj.location.id %}">
+                    {{obj.address}}
+                  </a>
+                {% else %}
+                  (Non renseigné) 
+                {% endif %}
+              </p>
+              <p class="card-text">Note : {% if obj.note %} {{obj.note}} {% else %} (Non renseigné) {% endif %}</p>
+
+
+              <!-- edit / delete button -->
+              {% if user.id == obj.support.id or user.str_id == obj.contract.commercial_id %}
+                <a href="{% url update_url_name id=obj.id  %}" class="btn btn-warning" title="Modifier">
+                  <i class="bi bi-pencil-fill"></i>
+                </a> 
+                <a href="{% url delete_url_name id=obj.id  %}" class="btn btn-danger" title="Supprimer">
+                  <i class="bi bi-x-lg"></i>
+                </a>
+              {% endif %}
+
+              <!-- change support button -->
+              {% if user.role == "Gestion" %}
+                <a href="{% url 'change_support' id=obj.id  %}" class="btn btn-warning" title="Modifier support">
+                  <i class="bi bi-pencil-fill"></i>
+                </a>
+                <button class="btn btn-secondary disabled"><i class="bi bi-x-lg"></i></button>
+              {% endif %}
+
+            </li>
+
+            <li class="list-group-item text-muted bg-light">
+              <p>Créé le : {{obj.creation_time|date}}</p>
+              <p>Dernière modification : {{obj.edition_time|date}}</p>
+            </li>
+
+        </ul>
+      </div>
+    </div>
+
+{% endblock content %}

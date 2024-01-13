@@ -1,0 +1,84 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+  <h1 class="text-center my-5">{{title}}</h1>
+
+  {% include "contract/partials/filter.html" %}
+
+  <table class="table table-bordered text-center align-middle m-1">
+    <thead>
+      <tr class="table-secondary align-middle">
+        <th scope="col">ID</th>
+        <th scope="col">Client</th>
+        <th scope="col">Commercial</th>
+
+        <th scope="col">Signé</th>
+        <th scope="col">Payé</th>
+
+        {% if user.role == "Commercial" or user.role == "Gestion" %}
+          <th scope="col">Action</th>
+        {% endif %}
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for obj in page_obj %}
+        <tr>
+          <td><a href="{% url detail_url_name id=obj.id %}">{{obj.id}}</a></td>
+
+          {% if obj.customer %}
+            <td><a href="{% url 'customer' id=obj.customer.id %}">{{obj.customer_name}}</a></td>
+          {% else %}
+            <td>{{obj.customer_name}}</td>
+          {% endif %}
+
+          {% if obj.customer.commercial %}
+            <td><a href="{% url 'collaborator' id=obj.customer.commercial.id %}">{{obj.commercial_name}}</a></td>
+          {% else %}
+            <td>{{obj.commercial_name}}</td>
+          {% endif %}
+
+          <td>{% if obj.is_signed %}✅{% else %}❌{% endif %}</td>
+          <td>{% if obj.is_paid %}✅{% else %}❌{% endif %}</td>
+
+          {% if user.role == "Commercial" or user.role == "Gestion" %}
+            <td>
+              <!-- create event button -->
+              {% if user.role == "Commercial" %}
+                {% if user.str_id == obj.commercial_id and obj.is_ready_for_event %}
+                  <a href="{% url 'create_event' id=obj.id %}" title="Créer événement" class="link-underline link-underline-opacity-0">
+                    <button class="btn btn-success"><i class="bi bi-plus-lg"></i></button>
+                  </a>
+                {% else %}
+                  <button class="btn btn-secondary disabled"><i class="bi bi-plus-lg"></i></button>
+                {% endif %}
+
+              {% endif %}
+
+              <!-- edit and delete contract button -->
+              {% if user.str_id == obj.commercial_id or user.role == "Gestion" %}
+                <a title="Modifier" href="{% url update_url_name id=obj.id %}" class="link-underline link-underline-opacity-0">
+                  <button class="btn btn-warning m-1"><i class="bi bi-pencil-fill"></i></button>
+                </a>
+
+                <a title="Supprimer" href="{% url delete_url_name id=obj.id %}">
+                  <button class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
+                </a>
+              {% else %}
+                <button class="btn btn-secondary m-1 disabled"><i class="bi bi-pencil-fill"></i></button>
+                <button class="btn btn-secondary disabled"><i class="bi bi-x-lg"></i></button>
+              {% endif %}
+              
+            </td>
+          {% endif %}
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% include 'partials/paginator.html' %}
+  
+{% endblock content %}

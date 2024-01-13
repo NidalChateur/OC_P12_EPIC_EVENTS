@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center my-5">Fiche collaborateur</h1>
+    <div class="offset-md-3 col-md-6 offset-1 col-10">
+
+      <div class="card text-center">
+        <div class="card-header">
+          Identifiant : {{collaborator.id}}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{collaborator.name}}</h5>
+          {% if user.role == "Gestion" %}
+            <p class="card-title">Date de naissance : {{collaborator.birthdate}}</p>
+          {% endif %}
+          {% if collaborator.department and user.role == "Gestion" %}
+            <p class="card-title">Département : 
+              <a href="{% url 'department' id=collaborator.department.id %}">{{collaborator.role}}</a>
+            </p>
+          {% else %}
+            <p class="card-title">Département : {{collaborator.role}}</p>
+          {% endif %}
+
+          <p class="card-text">Email : {{collaborator.email|lower}}</p>
+          <p class="card-text">Téléphone : {{collaborator.formatted_phone}}</p>
+
+          {% if collaborator.role == "Commercial" %}
+
+            {% if customers %}
+              <p class="card-text">Clients : <a href="{% url 'my_customers' id=collaborator.id %}">{{customers|length}}</a></p>
+            {% else %}
+              <p class="card-text">Clients : (Non renseigné)</p>
+            {% endif %}
+
+          {% endif %}
+
+          {% if collaborator.role == "Support" %}
+
+            {% if events %}
+              <p class="card-text">Événements : <a href="{% url 'my_events' id=collaborator.id %}">{{events|length}}</a></p>
+            {% else %}
+              <p class="card-text">Événements : (Non renseigné)</p>
+            {% endif %}
+
+          {% endif %}
+
+          {% if "collaborators" in request.path and user.str_id in request.path    %}
+            <a href="{% url 'change_password' %}" class="btn btn-warning" title="Modifier son mot de passe">
+              <i class="bi bi-key-fill"></i>
+            </a>
+          {% endif %} 
+
+          {% if user.role == "Gestion" %}
+            <a href="{% url 'update_collaborator' id=collaborator.id %}" class="btn btn-warning" title="Modifier">
+              <i class="bi bi-pencil-fill"></i>
+            </a> 
+            <a href="{% url 'delete_collaborator' id=collaborator.id %}" class="btn btn-danger" title="Supprimer">
+              <i class="bi bi-person-x-fill"></i>
+            </a>
+          {% endif %}
+          
+
+        </div>
+        <div class="card-footer text-muted">
+          <p>Créé le : {{collaborator.creation_time|date}}</p>
+          <p>Dernière modification : {{collaborator.edition_time|date}}</p>
+        </div>
+      </div>
+
+    </div>
+{% endblock content %}

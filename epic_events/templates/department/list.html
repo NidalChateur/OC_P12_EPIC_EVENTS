@@ -1,0 +1,45 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+  <h1 class="text-center my-5">{{title}}</h1>
+
+  <a href="{% url create_url_name %}" title="Ajouter">
+    <button class="btn btn-success mb-3">
+      <i class="bi bi-plus-lg"></i>
+    </button>
+  </a>
+
+  <table class="table table-bordered text-center align-middle m-1">
+    <thead>
+      <tr class="table-secondary align-middle">
+        <th scope="col">ID</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {% for obj in page_obj %}
+        <tr>
+          <td><a href="{% url detail_url_name id=obj.id %}">{{obj.id}}</a></td>
+          <td><a href="{% url detail_url_name id=obj.id %}">{{obj.name|capfirst}}</a></td>
+
+          <td>
+            <a title="Modifier" href="{% url update_url_name id=obj.id %}" class="link-underline link-underline-opacity-0">
+              <button class="btn btn-warning"><i class="bi bi-pencil-fill"></i></button>
+            </a>
+
+            <a title="Supprimer" href="{% url delete_url_name id=obj.id %}">
+              <button class="btn btn-danger m-1"><i class="bi bi-x-lg"></i></button>
+            </a>
+          </td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'partials/paginator.html' %}
+
+{% endblock content %}

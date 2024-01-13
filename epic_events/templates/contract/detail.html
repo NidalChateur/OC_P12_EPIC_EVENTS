@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center my-5">Fiche {{title}}</h1>
+    <div class="offset-md-3 col-md-6 offset-1 col-10">
+
+      <!-- create event button -->
+      {% if user.str_id == obj.commercial_id and obj.is_ready_for_event %}
+        <a href="{% url 'create_event' id=obj.id %}">
+          <button class="btn btn-success mb-3">
+            <i class="bi bi-plus-lg"></i> Événement
+          </button>
+        </a>
+      {% endif %}
+
+      <div class="card">
+        <div class="card-header text-center">
+          Identifiant : {{obj.id}}
+        </div>
+        <ul class="list-group list-group-flush text-center">
+
+          <!-- customer data -->
+          <li class="list-group-item">
+            {% if obj.customer %}
+              <p class="card-text">Client <a href="{% url 'customer' id=obj.customer.id %}">{{obj.customer_name}}</a></p>
+              <p class="card-text">Email : {{obj.customer_email}}</p>
+              <p class="card-text">Téléphone : {{obj.customer_phone}}</p>
+            {% else %}
+              <p>Client : (Non renseigné)</p>
+            {% endif %}
+          </li>
+
+          <!-- commercial data -->
+          <li class="list-group-item">
+            {% if obj.customer_has_commercial %}
+            <p class="card-text">Commercial <a href="{% url 'collaborator' id=obj.customer.commercial.id %}">{{obj.commercial_name}}</a></p>
+            <p class="card-text">Email : {{obj.commercial_email}}</p>
+            <p class="card-text">Téléphone : {{obj.commercial_phone}}</p>
+          {% else %}
+            <p>Commercial : (Non renseigné)</p>
+          {% endif %}
+          </li>
+
+          <!-- contract data -->
+          <li class="list-group-item">
+            <p class="card-text">Montant total : {{obj.formatted_total_amount}} €</p>
+            <p class="card-text">Montant payé : {{obj.formatted_amount_paid}} €</p>
+            <p class="card-text">Montant restant : {{obj.formatted_remaining_amount}} €</p>
+            <p class="card-text">Signé : {{ obj.formatted_is_signed }} </p>
+            <p class="card-text">Payé : {{ obj.formatted_is_paid }} </p>
+            <p class="card-text">Événement : 
+              {% if event %}
+                <a href="{% url 'event' id=event.id %}">Événement n°{{event.id}}</a>
+              {% else %}
+                (Non renseigné)
+              {% endif %}
+            </p>
+
+            <!-- edit delete contract buttons -->
+            {% if user.str_id == obj.commercial_id or user.role == "Gestion" %}
+              <a href="{% url update_url_name id=obj.id  %}" class="btn btn-warning" title="Modifier">
+                <i class="bi bi-pencil-fill"></i>
+              </a> 
+              <a href="{% url delete_url_name id=obj.id  %}" class="btn btn-danger" title="Supprimer">
+                <i class="bi bi-x-lg"></i>
+              </a>
+            {% endif %}
+
+          </li>
+          <li class="list-group-item text-muted bg-light">
+            <p>Créé le : {{obj.creation_time|date}}</p>
+            <p>Dernière modification : {{obj.edition_time|date}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+{% endblock content %}
