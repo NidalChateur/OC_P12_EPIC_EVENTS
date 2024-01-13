@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from phonenumber_field.modelfields import PhoneNumberField
+
 from .str_template import unfilled
 
 
@@ -13,13 +14,6 @@ class TimeFieldMixin(models.Model):
 
     class Meta:
         abstract = True
-
-    def __repr__(self) -> dict:
-        return self.__dict__
-
-    def save(self, *args, **kwargs):
-        self.edition_time = timezone.now()
-        super().save(*args, **kwargs)
 
     @classmethod
     def singular_name(self) -> str:
@@ -67,6 +61,10 @@ class TimeFieldMixin(models.Model):
     def search_url_name(self) -> str:
         return f"search_{self.singular_name()}"
 
+    def save(self, *args, **kwargs):
+        self.edition_time = timezone.now()
+        super().save(*args, **kwargs)
+
 
 class NameFieldMixin(TimeFieldMixin):
     name = models.CharField(max_length=128)
@@ -75,13 +73,15 @@ class NameFieldMixin(TimeFieldMixin):
         abstract = True
 
     def __str__(self) -> str:
-        return f"{self.name.capitalize()}"
+        if self.name:
+            return f"{self.name.capitalize()}"
+        return unfilled
 
     def save(self, *args, **kwargs):
         # first save to generate self.id
         super().save(*args, **kwargs)
 
-        self.slug = f"{str(self.id)} {slugify(self.name)}"
+        self.slug = f"{self.id} {slugify(self.name)}"
 
         super().save(*args, **kwargs)
 
@@ -96,8 +96,15 @@ class UserMixin(TimeFieldMixin):
         abstract = True
 
     def __str__(self) -> str:
-        first_name = self.first_name.capitalize() or unfilled
-        last_name = self.last_name.capitalize() or unfilled
+        if self.first_name:
+            first_name = self.first_name.capitalize()
+        else:
+            first_name = unfilled
+
+        if self.last_name:
+            last_name = self.last_name.capitalize()
+        else:
+            last_name = unfilled
 
         return f"{first_name} {last_name}"
 
@@ -124,10 +131,11 @@ class UserMixin(TimeFieldMixin):
 
         if self.singular_name() == "collaborator":
             slug_foreign_key = slugify(self.role)
+
         if self.singular_name() == "customer":
             slug_foreign_key = (
                 f"{slugify(self.company_name)} {slugify(self.commercial_name)}"
             )
 
-        self.slug = f"{str(self.id)} {slug_first_name} {slug_last_name} {slug_email} {slug_foreign_key}"
+        self.slug = f"{self.id} {slug_first_name} {slug_last_name} {slug_email} {slug_foreign_key}"
         super().save(*args, **kwargs)

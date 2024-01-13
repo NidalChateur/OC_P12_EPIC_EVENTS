@@ -15,7 +15,7 @@ class Customer(UserMixin):
     @property
     def company_name(self):
         if self.company:
-            return self.company.name.capitalize()
+            return str(self.company)
         return unfilled
 
     @property

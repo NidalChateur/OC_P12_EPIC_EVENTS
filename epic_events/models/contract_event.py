@@ -75,7 +75,7 @@ class Contract(TimeFieldMixin):
 
     @property
     def customer_has_commercial(self) -> bool:
-        if self.customer.commercial:
+        if self.customer and self.customer.commercial:
             return True
         return False
 
@@ -128,22 +128,22 @@ class Contract(TimeFieldMixin):
 
         # building slug field
         if self.customer:
-            slug_customer = f"{slugify(self.customer_name)}"
+            slug_customer = slugify(self.customer_name)
         else:
             slug_customer = ""
 
-        if self.customer.commercial:
-            slug_commercial = f"{slugify(self.commercial_name)}"
+        if self.customer_has_commercial:
+            slug_commercial = slugify(self.commercial_name)
         else:
             slug_commercial = ""
 
-        self.slug = f"{self.id} {slug_customer} {slug_commercial} {self.total_amount}"
+        self.slug = f"{self.id}{slug_customer}{slug_commercial}{self.total_amount}"
 
         super().save(*args, **kwargs)
 
 
 class Event(TimeFieldMixin):
-    contract = models.ForeignKey(to=Contract, on_delete=models.RESTRICT, null=True)
+    contract = models.ForeignKey(to=Contract, on_delete=models.CASCADE, null=True)
     location = models.ForeignKey(to=Location, on_delete=models.SET_NULL, null=True)
     support = models.ForeignKey(
         to=Collaborator, on_delete=models.SET_NULL, null=True, blank=True
@@ -161,7 +161,7 @@ class Event(TimeFieldMixin):
     @property
     def address(self):
         if self.location:
-            return f"{self.location.formatted_name}, {self.location.formatted_address}"
+            return str(self.location)
         return unfilled
 
     @property
@@ -204,12 +204,6 @@ class Event(TimeFieldMixin):
     def commercial_phone(self):
         if self.contract:
             return self.contract.commercial_phone
-        return unfilled
-
-    @property
-    def support_id(self):
-        if self.support:
-            return self.support.str_id
         return unfilled
 
     @property
