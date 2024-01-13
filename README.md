@@ -17,7 +17,7 @@ différents pôles de l'entreprise.
 
 
  ## Réalisations
- - <a href="https://github.com/NidalChateur/OC_P12_EPIC_EVENTS/mission/schema_bdd.pdf">Schéma de base de donnée Epic Events.</a> 
+ - <a href="https://github.com/NidalChateur/OC_P12_EPIC_EVENTS/blob/main/mission/schema_bdd.pdf">Schéma de base de donnée Epic Events.</a> 
 
 ## Cas d'usages
 
