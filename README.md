@@ -115,7 +115,11 @@ Les étapes 1, 2 et 4 ne sont requises que pour l'installation initiale. Pour le
 
 Flake8 est souvent utilisé pour vérifier le respect des conventions de style PEP 8 dans le code Python. Pour réaliser ceci, se positionner à la racine du projet puis exécuter dans le terminal : 
 
+- sans poetry :
 `flake8`
+
+- avec poetry :
+`poetry run flake8`
 
 Un rapport d'erreur au format html, sera alors disponible dans le dossier "flake8_report".
 
