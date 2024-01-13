@@ -125,7 +125,11 @@ La couverture de test vérifie le taux de lignes couvertes par des tests.
 
 Pour réaliser ceci, se positionner à la racine du projet puis exécuter dans le terminal : 
 
+- sans poetry :
 `pytest --cov=. --cov-report html`
+
+- avec poetry :
+`poetry pytest --cov=. --cov-report html`
 
 Quand le script est terminé, vous découvrez qu'un nouveau dossier "htmlcov" a été créé à l'endroit où vous avez lancé la commande. Ce dossier contient différents documents dont des fichiers HTML.
 
