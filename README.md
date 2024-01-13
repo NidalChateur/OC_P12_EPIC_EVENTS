@@ -105,7 +105,7 @@ poetry install
 * Lancer le script à l'aide de la commande suivante : `python manage.py runserver`
 
 ### 5. Démarrage avec poetry
-* Lancer le script à l'aide de la commande suivante : `poetry python manage.py runserver`
+* Lancer le script à l'aide de la commande suivante : `poetry run python manage.py runserver`
 
 Lorsque le serveur fonctionne, l'application peut être consultée à partir de l'url [http://127.0.0.1:8000/].
 
@@ -129,7 +129,7 @@ Pour réaliser ceci, se positionner à la racine du projet puis exécuter dans l
 `pytest --cov=. --cov-report html`
 
 - avec poetry :
-`poetry pytest --cov=. --cov-report html`
+`poetry run pytest --cov=. --cov-report html`
 
 Quand le script est terminé, vous découvrez qu'un nouveau dossier "htmlcov" a été créé à l'endroit où vous avez lancé la commande. Ce dossier contient différents documents dont des fichiers HTML.
 

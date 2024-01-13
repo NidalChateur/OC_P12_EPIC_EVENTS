@@ -16,6 +16,4 @@ flake8-html
 
 poetry
 
-rich
-
 sentry-sdk[django]
