@@ -266,9 +266,13 @@ class CreateView(crud_permission, View):
         if all([collaborator_form.is_valid(), department_form.is_valid()]):
             collaborator = collaborator_form.save(commit=False)
 
-            department, created = Department.objects.get_or_create(
-                name=department_form.cleaned_data["name"]
-            )
+            # check if department exists
+            qs = Department.objects.filter(name=department_form.cleaned_data["name"])
+            if qs:
+                department = qs[0]
+            else:
+                department = department_form.save()
+                department.save()
 
             collaborator.department = department
             collaborator.save()
@@ -322,9 +326,13 @@ class UpdateView(crud_permission, View):
         if all([collaborator_form.is_valid(), department_form.is_valid()]):
             collaborator = collaborator_form.save(commit=False)
 
-            department, created = Department.objects.get_or_create(
-                name=department_form.cleaned_data["name"]
-            )
+            # check if department exists
+            qs = Department.objects.filter(name=department_form.cleaned_data["name"])
+            if qs:
+                department = qs[0]
+            else:
+                department = Department(name=department_form.cleaned_data["name"])
+                department.save()
 
             collaborator.department = department
             collaborator.save()

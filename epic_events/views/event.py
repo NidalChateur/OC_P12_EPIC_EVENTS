@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.text import slugify
 from django.views import View
-from .paginator import paginator
 
 from ..forms.contract import ContractForm
 from ..forms.event import ChangeSupportForm, EventForm
@@ -17,6 +16,7 @@ from ..permissions import (
     LoginRequiredMixin,
     ManagerRequiredMixin,
 )
+from .paginator import paginator
 
 model = Event
 model_form = EventForm
@@ -208,7 +208,6 @@ class UpdateView(update_permission, View):
                 request,
                 f" ✅ {model.french_name()} identifiant n°{obj.id} a été modifié avec succès !",
             )
-            messages.info(request, f"form2.slug= {form2.cleaned_data['slug_form']}")
 
             return redirect(f"{model.singular_name()}", id=obj.id)
 

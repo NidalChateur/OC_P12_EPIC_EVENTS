@@ -56,10 +56,7 @@
               <p class="card-text">Lieu : 
                 {% if obj.location %} 
                   <a href="{% url 'location' id=obj.location.id %}">
-                    {% if obj.location.name %}
-                      {{obj.location.formatted_name}}, 
-                    {% endif %}
-                    {{obj.location.formatted_address}}
+                    {{obj.address}}
                   </a>
                 {% else %}
                   (Non renseigné) 

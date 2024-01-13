@@ -16,6 +16,7 @@ flake8 = "^6.1.0"
 flake8-html = "^0.4.3"
 django = "^5.0"
 django-phonenumber-field = {extras = ["phonenumberslite"], version = "^7.3.0"}
+rich = "^13.7.0"
 sentry-sdk = {extras = ["django"], version = "^1.39.1"}
 
 

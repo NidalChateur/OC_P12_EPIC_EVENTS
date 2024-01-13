@@ -6,5 +6,3 @@ from .department import Department
 from .location import Location
 
 [Collaborator, Department, Company, Customer, Contract, Location, Event]
-
-

@@ -47,22 +47,22 @@ class Location(TimeFieldMixin):
 
     def __str__(self, name=True) -> str:
         if self.name and name:
-            name = f"{self.name.strip().title()} "
+            name = f"{self.name.title()}, "
         else:
             name = ""
 
         if self.number:
-            number = f"{self.number.strip().upper()} "
+            number = f"{self.number.upper()} "
         else:
             number = ""
 
         if self.street_type:
-            street_type = f"{self.street_type} "
+            street_type = f"{self.street_type.capitalize()} "
         else:
             street_type = ""
 
         if self.street_name:
-            street_name = f"{self.street_name.strip().title()}, "
+            street_name = f"{self.street_name.title()}, "
         else:
             street_name = ""
 
@@ -72,16 +72,16 @@ class Location(TimeFieldMixin):
             zip = ""
 
         if self.city:
-            city = f"{self.city.strip().capitalize()}"
+            city = f"{self.city.title()}."
         else:
             city = ""
 
-        return f"{name} {number} {street_type} {street_name} {zip} {city}"
+        return f"{name}{number}{street_type}{street_name}{zip}{city}"
 
     @property
     def formatted_name(self) -> str:
         if self.name:
-            return self.name.strip().title()
+            return self.name.title()
 
         return unfilled
 

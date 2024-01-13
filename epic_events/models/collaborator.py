@@ -16,30 +16,29 @@ class Collaborator(UserMixin, AbstractUser):
 
     department = models.ForeignKey(to=Department, on_delete=models.RESTRICT, null=True)
 
-    birthdate = models.DateField(null=True, verbose_name="Date de naissance")
+    birthdate = models.DateField(verbose_name="Date de naissance")
 
     REQUIRED_FIELDS = ["first_name", "last_name"]
     USERNAME_FIELD = "email"
     username = date_joined = None
 
     @property
-    def str_id(self):
+    def str_id(self) -> str:
         if self.id:
             return str(self.id)
+        return unfilled
 
     @property
     def role(self) -> str:
         if self.department:
-            return f"{self.department.name.capitalize()}"
-        else:
-            return unfilled
+            return self.department.name
+        return unfilled
 
     @property
     def title(self) -> str:
         if self.first_name:
             return f"{self.role} {self.first_name.capitalize()}"
-        else:
-            return unfilled
+        return f"{self.role} {unfilled}"
 
     @classmethod
     def french_name(self) -> str:

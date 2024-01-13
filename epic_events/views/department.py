@@ -2,12 +2,13 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.text import slugify
 from django.views import View
-from .paginator import paginator
 
 from ..forms.department import DepartmentForm
 from ..forms.search import SearchForm
+from ..models.collaborator import Collaborator
 from ..models.department import Department
 from ..permissions import ManagerRequiredMixin
+from .paginator import paginator
 
 model = Department
 model_form = DepartmentForm
@@ -163,6 +164,15 @@ class DeleteView(crud_permission, View):
         "delete"
 
         obj = get_object_or_404(model, id=id)
+
+        # RESTRICT
+        if Collaborator.objects.filter(department__name=obj.name):
+            messages.info(
+                request, f" ℹ️ Des collaborateurs sont reliés au département {obj.name}."
+            )
+            return redirect(f"{model.plural_name()}")
+
+        # DELETE
         obj_id = obj.id
         obj.delete()
         messages.success(
