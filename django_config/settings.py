@@ -1,6 +1,6 @@
 from pathlib import Path
 
-# import sentry_sdk
+import sentry_sdk
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -137,13 +137,13 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 LOGIN_REDIRECT_URL = "home"
 
 # sentry config
-# sentry_sdk.init(
-#     dsn="https://1122b64a0792b6aa100ec2c69191c385@o4506501150212096.ingest.sentry.io/4506501152636928",
-#     # Set traces_sample_rate to 1.0 to capture 100%
-#     # of transactions for performance monitoring.
-#     traces_sample_rate=1.0,
-#     # Set profiles_sample_rate to 1.0 to profile 100%
-#     # of sampled transactions.
-#     # We recommend adjusting this value in production.
-#     profiles_sample_rate=1.0,
-# )
+sentry_sdk.init(
+    dsn="https://1122b64a0792b6aa100ec2c69191c385@o4506501150212096.ingest.sentry.io/4506501152636928",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
