@@ -17,6 +17,10 @@ flake8-html = "^0.4.3"
 django = "^5.0"
 django-phonenumber-field = {extras = ["phonenumberslite"], version = "^7.3.0"}
 sentry-sdk = {extras = ["django"], version = "^1.39.1"}
+python-decouple = "^3.8"
+dj-database-url = "^2.1.0"
+gunicorn = "^21.2.0"
+psycopg2 = "^2.9.9"
 
 
 [build-system]
