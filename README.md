@@ -21,7 +21,7 @@ différents pôles de l'entreprise.
 
 ## Cas d'usages
 
- #### Besoin généraux
+ #### Besoin généraux : 
 - Chaque collaborateur doit avoir ses identifiants pour utiliser la
 plateforme.
 
