@@ -1,6 +1,8 @@
 from pathlib import Path
 
-# import sentry_sdk
+import dj_database_url
+import sentry_sdk
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,12 +12,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-l!(hrx!zupva*i06we0nuxs#iwr6pa)_kd1$7xnb-o1s_bryy_"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# replace "*" by host name for more security
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -71,12 +74,18 @@ WSGI_APPLICATION = "django_config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+
+if DEBUG is True:
+    # local database
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    # deployed database
+    DATABASES = {"default": dj_database_url.parse(config("DATABASE_URL"))}
 
 
 # Password validation
@@ -137,13 +146,13 @@ LOGOUT_REDIRECT_URL = LOGIN_URL
 LOGIN_REDIRECT_URL = "home"
 
 # sentry config
-# sentry_sdk.init(
-#     dsn="https://1122b64a0792b6aa100ec2c69191c385@o4506501150212096.ingest.sentry.io/4506501152636928",
-#     # Set traces_sample_rate to 1.0 to capture 100%
-#     # of transactions for performance monitoring.
-#     traces_sample_rate=1.0,
-#     # Set profiles_sample_rate to 1.0 to profile 100%
-#     # of sampled transactions.
-#     # We recommend adjusting this value in production.
-#     profiles_sample_rate=1.0,
-# )
+sentry_sdk.init(
+    dsn=config("SENTRY_DSN"),
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)

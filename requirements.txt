@@ -4,6 +4,10 @@
 django
 django-phonenumber-field[phonenumberslite]
 django-bootstrap5
+# used to access .env variables in settings
+python-decouple
+# used to add another database in settings
+dj-database-url
 
 pytest
 pytest-django
@@ -16,6 +20,9 @@ flake8-html
 
 poetry
 
-rich
-
 sentry-sdk[django]
+
+# to deploy:
+    # serveur utilisé sur render
+    gunicorn
+    psycopg2

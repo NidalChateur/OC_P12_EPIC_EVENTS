@@ -17,11 +17,11 @@ différents pôles de l'entreprise.
 
 
  ## Réalisations
- - <a href="https://github.com/NidalChateur/OC_P12_EPIC_EVENTS/mission/schema_bdd.pdf">Schéma de base de donnée Epic Events.</a> 
+ - <a href="https://github.com/NidalChateur/OC_P12_EPIC_EVENTS/blob/main/mission/schema_bdd.pdf">Schéma de base de donnée Epic Events.</a> 
 
 ## Cas d'usages
 
- #### Besoin généraux
+ #### Besoin généraux : 
 - Chaque collaborateur doit avoir ses identifiants pour utiliser la
 plateforme.
 
@@ -105,7 +105,7 @@ poetry install
 * Lancer le script à l'aide de la commande suivante : `python manage.py runserver`
 
 ### 5. Démarrage avec poetry
-* Lancer le script à l'aide de la commande suivante : `poetry python manage.py runserver`
+* Lancer le script à l'aide de la commande suivante : `poetry run python manage.py runserver`
 
 Lorsque le serveur fonctionne, l'application peut être consultée à partir de l'url [http://127.0.0.1:8000/].
 
@@ -115,7 +115,11 @@ Les étapes 1, 2 et 4 ne sont requises que pour l'installation initiale. Pour le
 
 Flake8 est souvent utilisé pour vérifier le respect des conventions de style PEP 8 dans le code Python. Pour réaliser ceci, se positionner à la racine du projet puis exécuter dans le terminal : 
 
+- sans poetry :
 `flake8`
+
+- avec poetry :
+`poetry run flake8`
 
 Un rapport d'erreur au format html, sera alors disponible dans le dossier "flake8_report".
 
@@ -125,7 +129,11 @@ La couverture de test vérifie le taux de lignes couvertes par des tests.
 
 Pour réaliser ceci, se positionner à la racine du projet puis exécuter dans le terminal : 
 
+- sans poetry :
 `pytest --cov=. --cov-report html`
+
+- avec poetry :
+`poetry run pytest --cov=. --cov-report html`
 
 Quand le script est terminé, vous découvrez qu'un nouveau dossier "htmlcov" a été créé à l'endroit où vous avez lancé la commande. Ce dossier contient différents documents dont des fichiers HTML.
 

@@ -2,6 +2,9 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+
+# quand l'app est déployé cela sert à localiser l'emplacement des images
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 
 
@@ -25,3 +28,6 @@ urlpatterns = [
 # images url configuration
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# if app is deployed
+urlpatterns += staticfiles_urlpatterns()
